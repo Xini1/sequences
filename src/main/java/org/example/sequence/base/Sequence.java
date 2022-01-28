@@ -1,4 +1,6 @@
-package org.example;
+package org.example.sequence.base;
+
+import org.example.folding.Folding;
 
 import java.util.Comparator;
 import java.util.Optional;

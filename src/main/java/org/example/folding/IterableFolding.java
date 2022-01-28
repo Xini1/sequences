@@ -1,13 +1,15 @@
-package org.example;
+package org.example.folding;
+
+import org.example.accumulator.base.Accumulator;
 
 /**
  * @author Maxim Tereshchenko
  */
-class IterableFolding<T> implements Folding<T> {
+public final class IterableFolding<T> implements Folding<T> {
 
     private final Iterable<T> iterable;
 
-    IterableFolding(Iterable<T> iterable) {
+    public IterableFolding(Iterable<T> iterable) {
         this.iterable = iterable;
     }
 

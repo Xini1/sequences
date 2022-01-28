@@ -1,4 +1,4 @@
-package org.example;
+package org.example.accumulator.base;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Maxim Tereshchenko
  */
-public class ListAccumulator<T> implements Accumulator<T, List<T>> {
+public final class ListAccumulator<T> implements Accumulator<T, List<T>> {
 
     private final List<T> list;
 

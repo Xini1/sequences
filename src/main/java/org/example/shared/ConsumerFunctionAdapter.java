@@ -1,4 +1,4 @@
-package org.example;
+package org.example.shared;
 
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
@@ -6,11 +6,11 @@ import java.util.function.UnaryOperator;
 /**
  * @author Maxim Tereshchenko
  */
-class ConsumerFunctionAdapter<T> implements UnaryOperator<T> {
+public final class ConsumerFunctionAdapter<T> implements UnaryOperator<T> {
 
     private final Consumer<T> consumer;
 
-    ConsumerFunctionAdapter(Consumer<T> consumer) {
+    public ConsumerFunctionAdapter(Consumer<T> consumer) {
         this.consumer = consumer;
     }
 

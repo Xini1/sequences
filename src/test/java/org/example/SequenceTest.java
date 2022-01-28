@@ -2,6 +2,9 @@ package org.example;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.example.accumulator.base.ListAccumulator;
+import org.example.sequence.FoldingSequence;
+import org.example.folding.IterableFolding;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
