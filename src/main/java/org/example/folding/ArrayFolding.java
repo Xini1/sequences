@@ -21,6 +21,6 @@ public final class ArrayFolding<T> implements Folding<T> {
             current = current.onElement(element);
         }
 
-        return accumulator.onFinish();
+        return current.onFinish();
     }
 }
