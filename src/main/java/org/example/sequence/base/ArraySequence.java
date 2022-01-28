@@ -1,7 +1,7 @@
 package org.example.sequence.base;
 
 import org.example.accumulator.base.Accumulator;
-import org.example.folding.IterableFolding;
+import org.example.folding.ArrayFolding;
 import org.example.sequence.FoldingSequence;
 
 import java.util.Comparator;
@@ -13,12 +13,13 @@ import java.util.function.Predicate;
 /**
  * @author Maxim Tereshchenko
  */
-public final class IterableSequence<T> implements Sequence<T> {
+public final class ArraySequence<T> implements Sequence<T> {
 
     private final Sequence<T> original;
 
-    public IterableSequence(Iterable<T> iterable) {
-        original = new FoldingSequence<>(new IterableFolding<>(iterable));
+    @SafeVarargs
+    public ArraySequence(T... elements) {
+        original = new FoldingSequence<>(new ArrayFolding<>(elements));
     }
 
     @Override
