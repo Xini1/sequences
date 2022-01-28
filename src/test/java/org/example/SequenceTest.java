@@ -3,8 +3,7 @@ package org.example;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.example.accumulator.base.ListAccumulator;
-import org.example.sequence.FoldingSequence;
-import org.example.folding.IterableFolding;
+import org.example.sequence.base.IterableSequence;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ class SequenceTest {
     @Test
     void givenNumbers_whenFold_thenSameNumbers() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .fold(new ListAccumulator<>())
         )
                 .containsExactly(1, 2);
@@ -29,7 +28,7 @@ class SequenceTest {
     @Test
     void givenEvenAndOddNumbers_whenFilter_thenOnlyEvens() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .filter(num -> num % 2 == 0)
                         .fold(new ListAccumulator<>())
         )
@@ -39,7 +38,7 @@ class SequenceTest {
     @Test
     void givenNumbers_whenMap_thenNumbersIncremented() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .map(num -> num + 1)
                         .fold(new ListAccumulator<>())
         )
@@ -49,8 +48,8 @@ class SequenceTest {
     @Test
     void givenTwoNumbers_whenFlatMap_thenFourNumbers() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
-                        .flatMap(num -> new FoldingSequence<>(new IterableFolding<>(List.of(num, num + 1))))
+                new IterableSequence<>(List.of(1, 2))
+                        .flatMap(num -> new IterableSequence<>(List.of(num, num + 1)))
                         .fold(new ListAccumulator<>())
         )
                 .containsExactly(1, 2, 2, 3);
@@ -59,7 +58,7 @@ class SequenceTest {
     @Test
     void givenNumbersWithDuplicates_whenDistinct_thenUniqueNumbers() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 1)))
+                new IterableSequence<>(List.of(1, 1))
                         .distinct()
                         .fold(new ListAccumulator<>())
         )
@@ -69,7 +68,7 @@ class SequenceTest {
     @Test
     void givenUnsortedNumbers_whenSorted_thenNumbersSorted() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(2, 1)))
+                new IterableSequence<>(List.of(2, 1))
                         .sorted(Comparator.naturalOrder())
                         .fold(new ListAccumulator<>())
         )
@@ -80,7 +79,7 @@ class SequenceTest {
     void givenNumbers_whenOnEach_thenCounterIncremented() {
         var counter = new AtomicInteger();
 
-        new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+        new IterableSequence<>(List.of(1, 2))
                 .onEach(unused -> counter.incrementAndGet())
                 .fold(new ListAccumulator<>());
 
@@ -91,7 +90,7 @@ class SequenceTest {
     void givenNumbers_whenOnEach_thenNumbersAddedToList() {
         var list = new ArrayList<Integer>();
 
-        new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+        new IterableSequence<>(List.of(1, 2))
                 .forEach(list::add);
 
         assertThat(list).containsExactly(1, 2);
@@ -100,7 +99,7 @@ class SequenceTest {
     @Test
     void givenManyNumbers_whenLimit_thenThereAreLessThenLimitSizeElements() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2, 3)))
+                new IterableSequence<>(List.of(1, 2, 3))
                         .limit(2)
                         .fold(new ListAccumulator<>())
         )
@@ -110,7 +109,7 @@ class SequenceTest {
     @Test
     void givenManyNumbers_whenSkip_thenFirstElementsSkipped() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2, 3)))
+                new IterableSequence<>(List.of(1, 2, 3))
                         .skip(1)
                         .fold(new ListAccumulator<>())
         )
@@ -120,8 +119,8 @@ class SequenceTest {
     @Test
     void givenFlatMappedSequence_whenSkip_thenSkipOnlyFirstElementsOfFlatMappedSequence() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
-                        .flatMap(num -> new FoldingSequence<>(new IterableFolding<>(List.of(num, num))))
+                new IterableSequence<>(List.of(1, 2))
+                        .flatMap(num -> new IterableSequence<>(List.of(num, num)))
                         .skip(1)
                         .fold(new ListAccumulator<>())
         )
@@ -131,8 +130,8 @@ class SequenceTest {
     @Test
     void givenFlatMappedSequence_whenLimit_thenThereAreLessThenLimitSizeElements() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
-                        .flatMap(num -> new FoldingSequence<>(new IterableFolding<>(List.of(num, num))))
+                new IterableSequence<>(List.of(1, 2))
+                        .flatMap(num -> new IterableSequence<>(List.of(num, num)))
                         .limit(3)
                         .fold(new ListAccumulator<>())
         )
@@ -142,8 +141,8 @@ class SequenceTest {
     @Test
     void givenFlatMappedSequenceWithDuplicates_whenDistinct_thenUniqueNumbers() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
-                        .flatMap(num -> new FoldingSequence<>(new IterableFolding<>(List.of(num, num + 1))))
+                new IterableSequence<>(List.of(1, 2))
+                        .flatMap(num -> new IterableSequence<>(List.of(num, num + 1)))
                         .distinct()
                         .fold(new ListAccumulator<>())
         )
@@ -153,8 +152,8 @@ class SequenceTest {
     @Test
     void givenUnsortedFlatMappedSequence_whenSorted_thenNumbersSorted() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(2, 1)))
-                        .flatMap(num -> new FoldingSequence<>(new IterableFolding<>(List.of(num, num + 1))))
+                new IterableSequence<>(List.of(2, 1))
+                        .flatMap(num -> new IterableSequence<>(List.of(num, num + 1)))
                         .sorted(Comparator.naturalOrder())
                         .fold(new ListAccumulator<>())
         )
@@ -164,7 +163,7 @@ class SequenceTest {
     @Test
     void givenNumbers_whenMin_thenMinimumNumberIsFound() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .min(Comparator.naturalOrder())
         )
                 .contains(1);
@@ -173,8 +172,8 @@ class SequenceTest {
     @Test
     void givenFlatMappedNumbers_whenMin_thenMinimumNumberIsFound() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
-                        .flatMap(num -> new FoldingSequence<>(new IterableFolding<>(List.of(-num, num + 1))))
+                new IterableSequence<>(List.of(1, 2))
+                        .flatMap(num -> new IterableSequence<>(List.of(-num, num + 1)))
                         .min(Comparator.naturalOrder())
         )
                 .contains(-2);
@@ -183,7 +182,7 @@ class SequenceTest {
     @Test
     void givenEmptySequence_whenMin_thenEmptyOptionalReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .skip(2)
                         .min(Comparator.naturalOrder())
         )
@@ -193,7 +192,7 @@ class SequenceTest {
     @Test
     void givenNumbers_whenCount_thenNumbersCounted() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .count()
         )
                 .isEqualTo(2);
@@ -202,8 +201,8 @@ class SequenceTest {
     @Test
     void givenFlatMappedNumbers_whenCount_thenNumbersCounted() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
-                        .flatMap(num -> new FoldingSequence<>(new IterableFolding<>(List.of(num, num))))
+                new IterableSequence<>(List.of(1, 2))
+                        .flatMap(num -> new IterableSequence<>(List.of(num, num)))
                         .count()
         )
                 .isEqualTo(4);
@@ -212,7 +211,7 @@ class SequenceTest {
     @Test
     void givenNumbers_whenFindFirst_thenFirstNumberIsFound() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .findFirst()
         )
                 .contains(1);
@@ -221,7 +220,7 @@ class SequenceTest {
     @Test
     void givenOddNumbers_whenAnyMatchEven_thenFalseReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 3)))
+                new IterableSequence<>(List.of(1, 3))
                         .anyMatch(num -> num % 2 == 0)
         )
                 .isFalse();
@@ -230,7 +229,7 @@ class SequenceTest {
     @Test
     void givenNumbersWithEven_whenAnyMatchEven_thenTrueReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .anyMatch(num -> num % 2 == 0)
         )
                 .isTrue();
@@ -239,7 +238,7 @@ class SequenceTest {
     @Test
     void givenEmptySequence_whenAnyMatchEven_thenFalseReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .skip(2)
                         .anyMatch(num -> num % 2 == 0)
         )
@@ -249,7 +248,7 @@ class SequenceTest {
     @Test
     void givenNumbersWithOdd_whenAllMatchEven_thenFalseReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .allMatch(num -> num % 2 == 0)
         )
                 .isFalse();
@@ -258,7 +257,7 @@ class SequenceTest {
     @Test
     void givenEvenNumbers_whenAllMatchEven_thenTrueReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(2, 4)))
+                new IterableSequence<>(List.of(2, 4))
                         .allMatch(num -> num % 2 == 0)
         )
                 .isTrue();
@@ -267,7 +266,7 @@ class SequenceTest {
     @Test
     void givenEmptySequence_whenAllMatchEven_thenTrueReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .skip(2)
                         .allMatch(num -> num % 2 == 0)
         )
@@ -277,7 +276,7 @@ class SequenceTest {
     @Test
     void givenNumbersWithEven_whenNoneMatchEven_thenFalseReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .noneMatch(num -> num % 2 == 0)
         )
                 .isFalse();
@@ -286,7 +285,7 @@ class SequenceTest {
     @Test
     void givenOddNumbers_whenNoneMatchEven_thenTrueReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 3)))
+                new IterableSequence<>(List.of(1, 3))
                         .noneMatch(num -> num % 2 == 0)
         )
                 .isTrue();
@@ -295,7 +294,7 @@ class SequenceTest {
     @Test
     void givenEmptySequence_whenNoneMatchEven_thenTrueReturned() {
         assertThat(
-                new FoldingSequence<>(new IterableFolding<>(List.of(1, 2)))
+                new IterableSequence<>(List.of(1, 2))
                         .skip(2)
                         .noneMatch(num -> num % 2 == 0)
         )
