@@ -23,8 +23,7 @@ public final class CollectionAccumulator<T> implements Accumulator<T, Collection
 
     @Override
     public Accumulator<T, Collection<T>> onElement(T element) {
-        var copy = collectionSupplier.get();
-        copy.addAll(collection);
+        var copy = copy();
         copy.add(element);
 
         return new CollectionAccumulator<>(collectionSupplier, copy);
@@ -32,6 +31,13 @@ public final class CollectionAccumulator<T> implements Accumulator<T, Collection
 
     @Override
     public Collection<T> onFinish() {
-        return collection;
+        return copy();
+    }
+
+    private Collection<T> copy() {
+        var copy = collectionSupplier.get();
+        copy.addAll(collection);
+
+        return copy;
     }
 }
