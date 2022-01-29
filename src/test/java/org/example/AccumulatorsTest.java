@@ -6,6 +6,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import org.example.accumulator.base.Accumulator;
 import org.example.accumulator.base.CollectionAccumulator;
 import org.example.accumulator.base.CombiningAccumulator;
+import org.example.accumulator.base.GroupingAccumulator;
 import org.example.accumulator.base.JoiningAccumulator;
 import org.example.accumulator.base.ListAccumulator;
 import org.example.accumulator.base.ReducingAccumulator;
@@ -20,6 +21,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,7 +38,11 @@ final class AccumulatorsTest {
                 arguments(new JoiningAccumulator<>("{", ", ", "}"), "{1, 1, 2}"),
                 arguments(new JoiningAccumulator<>(", "), "1, 1, 2"),
                 arguments(new ReducingAccumulator<>("", (identity, element) -> identity + element), "112"),
-                arguments(new CombiningAccumulator<String>((first, second) -> first + second), Optional.of("112"))
+                arguments(new CombiningAccumulator<String>((first, second) -> first + second), Optional.of("112")),
+                arguments(
+                        new GroupingAccumulator<String, Integer>(Integer::valueOf),
+                        Map.of(1, List.of("1", "1"), 2, List.of("2"))
+                )
         );
     }
 
