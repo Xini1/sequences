@@ -1,6 +1,7 @@
 package org.example;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import org.example.accumulator.base.Accumulator;
@@ -98,5 +99,13 @@ final class AccumulatorsTest {
                         .fold(new CombiningAccumulator<>(Integer::sum))
         )
                 .contains(1);
+    }
+
+    @Test
+    void givenDuplicateKeysAfterMapping_whenFoldWithMapAccumulator_thenIllegalArgumentException() {
+        var sequence = new ArraySequence<>(1, 1);
+        var accumulator = new MapAccumulator<Integer, Integer, Integer>(Function.identity(), Function.identity());
+
+        assertThatThrownBy(() -> sequence.fold(accumulator)).isInstanceOf(IllegalArgumentException.class);
     }
 }

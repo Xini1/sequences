@@ -1,5 +1,7 @@
 package org.example.accumulator.base;
 
+import org.example.shared.ThrowingBinaryOperator;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BinaryOperator;
@@ -29,6 +31,10 @@ public final class MapAccumulator<T, K, V> implements Accumulator<T, Map<K, V>> 
 
     public MapAccumulator(Function<T, K> keyMapper, Function<T, V> valueMapper, BinaryOperator<V> valueMerger) {
         this(keyMapper, valueMapper, valueMerger, new HashMap<>());
+    }
+
+    public MapAccumulator(Function<T, K> keyMapper, Function<T, V> valueMapper) {
+        this(keyMapper, valueMapper, new ThrowingBinaryOperator<>());
     }
 
     @Override
