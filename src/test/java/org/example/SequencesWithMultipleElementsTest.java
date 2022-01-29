@@ -52,7 +52,7 @@ final class SequencesWithMultipleElementsTest {
     @MethodSource("sequences")
     void givenNumbers_whenFlatMap_thenTwoTimesMoreNumbers(Sequence<Integer> sequence) {
         assertThat(
-                sequence.flatMap(num -> new IterableSequence<>(List.of(num, num + 1)))
+                sequence.flatMap(num -> new ArraySequence<>(num, num + 1))
                         .fold(new ListAccumulator<>())
         )
                 .containsExactly(1, 2, 1, 2, 3, 4, 2, 3, 3, 4, 4, 5);
@@ -143,7 +143,7 @@ final class SequencesWithMultipleElementsTest {
     @MethodSource("sequences")
     void givenFlatMappedSequence_whenSkip_thenSkipOnlyFirstElementsOfFlatMappedSequence(Sequence<Integer> sequence) {
         assertThat(
-                sequence.flatMap(num -> new IterableSequence<>(List.of(num, num)))
+                sequence.flatMap(num -> new ArraySequence<>(num, num))
                         .skip(5)
                         .fold(new ListAccumulator<>())
         )
@@ -154,7 +154,7 @@ final class SequencesWithMultipleElementsTest {
     @MethodSource("sequences")
     void givenFlatMappedSequence_whenLimit_thenThereAreLessThenLimitSizeElements(Sequence<Integer> sequence) {
         assertThat(
-                sequence.flatMap(num -> new IterableSequence<>(List.of(num, num)))
+                sequence.flatMap(num -> new ArraySequence<>(num, num))
                         .limit(5)
                         .fold(new ListAccumulator<>())
         )
@@ -165,7 +165,7 @@ final class SequencesWithMultipleElementsTest {
     @MethodSource("sequences")
     void givenFlatMappedSequenceWithDuplicates_whenDistinct_thenUniqueNumbers(Sequence<Integer> sequence) {
         assertThat(
-                sequence.flatMap(num -> new IterableSequence<>(List.of(num, num + 1)))
+                sequence.flatMap(num -> new ArraySequence<>(num, num + 1))
                         .distinct()
                         .fold(new ListAccumulator<>())
         )
@@ -176,7 +176,7 @@ final class SequencesWithMultipleElementsTest {
     @MethodSource("sequences")
     void givenUnsortedFlatMappedSequence_whenSorted_thenNumbersSorted(Sequence<Integer> sequence) {
         assertThat(
-                sequence.flatMap(num -> new IterableSequence<>(List.of(num, num + 1)))
+                sequence.flatMap(num -> new ArraySequence<>(num, num + 1))
                         .sorted(Comparator.naturalOrder())
                         .fold(new ListAccumulator<>())
         )
@@ -193,7 +193,7 @@ final class SequencesWithMultipleElementsTest {
     @MethodSource("sequences")
     void givenFlatMappedNumbers_whenMinimum_thenMinimumNumberIsFound(Sequence<Integer> sequence) {
         assertThat(
-                sequence.flatMap(num -> new IterableSequence<>(List.of(-num, num + 1)))
+                sequence.flatMap(num -> new ArraySequence<>(-num, num))
                         .minimum(Comparator.naturalOrder())
         )
                 .contains(-4);
@@ -219,7 +219,7 @@ final class SequencesWithMultipleElementsTest {
     @MethodSource("sequences")
     void givenFlatMappedNumbers_whenCount_thenNumbersCounted(Sequence<Integer> sequence) {
         assertThat(
-                sequence.flatMap(num -> new IterableSequence<>(List.of(num, num)))
+                sequence.flatMap(num -> new ArraySequence<>(num, num))
                         .count()
         )
                 .isEqualTo(12);

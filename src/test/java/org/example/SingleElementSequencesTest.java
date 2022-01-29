@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import org.example.accumulator.base.ListAccumulator;
-import org.example.sequence.base.IterableSequence;
+import org.example.sequence.base.ArraySequence;
 import org.example.sequence.base.OptionalSequence;
 import org.example.sequence.base.Sequence;
 import org.example.sequence.base.SingleElementSequence;
@@ -54,10 +54,10 @@ final class SingleElementSequencesTest {
     @MethodSource("sequences")
     void givenNumber_whenFlatMap_thenTwoNumbers(Sequence<Integer> sequence) {
         assertThat(
-                sequence.flatMap(num -> new IterableSequence<>(List.of(num, num + 1)))
+                sequence.flatMap(num -> new ArraySequence<>(num, num))
                         .fold(new ListAccumulator<>())
         )
-                .containsExactly(1, 2);
+                .containsExactly(1, 1);
     }
 
     @ParameterizedTest

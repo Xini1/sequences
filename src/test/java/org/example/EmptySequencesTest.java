@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import org.example.accumulator.base.ListAccumulator;
+import org.example.sequence.base.ArraySequence;
 import org.example.sequence.base.EmptySequence;
-import org.example.sequence.base.IterableSequence;
 import org.example.sequence.base.OptionalSequence;
 import org.example.sequence.base.Sequence;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -54,7 +54,7 @@ final class EmptySequencesTest {
     @MethodSource("sequences")
     void givenEmptySequence_whenFlatMap_thenNoElements(Sequence<Integer> sequence) {
         assertThat(
-                sequence.flatMap(num -> new IterableSequence<>(List.of(num, num + 1)))
+                sequence.flatMap(num -> new ArraySequence<>(num, num))
                         .fold(new ListAccumulator<>())
         )
                 .isEmpty();
