@@ -59,6 +59,11 @@ public final class EmptySequence<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> takeWhile(Predicate<T> predicate) {
+        return this;
+    }
+
+    @Override
     public void forEach(Consumer<T> consumer) {
         // empty
     }

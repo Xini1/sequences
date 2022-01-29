@@ -70,6 +70,11 @@ public final class OptionalSequence<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> takeWhile(Predicate<T> predicate) {
+        return original.takeWhile(predicate);
+    }
+
+    @Override
     public void forEach(Consumer<T> consumer) {
         original.forEach(consumer);
     }

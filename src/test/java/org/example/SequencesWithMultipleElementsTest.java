@@ -121,6 +121,16 @@ final class SequencesWithMultipleElementsTest {
 
     @ParameterizedTest
     @MethodSource("sequences")
+    void givenManyNumbers_whenTakeWhileLessThan3_thenNumbersBefore3Remained(Sequence<Integer> sequence) {
+        assertThat(
+                sequence.takeWhile(num -> num < 3)
+                        .fold(new ListAccumulator<>())
+        )
+                .containsExactly(1, 1);
+    }
+
+    @ParameterizedTest
+    @MethodSource("sequences")
     void givenFlatMappedSequence_whenSkip_thenSkipOnlyFirstElementsOfFlatMappedSequence(Sequence<Integer> sequence) {
         assertThat(
                 sequence.flatMap(num -> new IterableSequence<>(List.of(num, num)))

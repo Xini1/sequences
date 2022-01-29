@@ -16,6 +16,7 @@ import org.example.folding.FoldingWithSkippedElements;
 import org.example.folding.LimitedFolding;
 import org.example.folding.MappedFolding;
 import org.example.folding.SortedFolding;
+import org.example.folding.TakenWhilePredicateSatisfiedFolding;
 import org.example.sequence.base.Sequence;
 import org.example.shared.ConsumerFunctionAdapter;
 
@@ -79,6 +80,11 @@ public final class FoldingSequence<T> implements Sequence<T> {
     @Override
     public Sequence<T> skip(long count) {
         return new FoldingSequence<>(new FoldingWithSkippedElements<>(folding, count));
+    }
+
+    @Override
+    public Sequence<T> takeWhile(Predicate<T> predicate) {
+        return new FoldingSequence<>(new TakenWhilePredicateSatisfiedFolding<>(folding, predicate));
     }
 
     @Override

@@ -2,17 +2,18 @@ package org.example.accumulator;
 
 import org.example.accumulator.base.Accumulator;
 
+import java.util.function.Predicate;
+
 /**
  * @author Maxim Tereshchenko
  */
-public final class LimitingAccumulator<T, R> implements Accumulator<T, R> {
+public final class LimitingAccumulator<T, R> extends BaseTakingWhilePredicateSatisfiedAccumulator<T, R> {
 
-    private final Accumulator<T, R> original;
     private final long maxSize;
     private final long currentSize;
 
     private LimitingAccumulator(Accumulator<T, R> original, long maxSize, long currentSize) {
-        this.original = original;
+        super(original, unused -> currentSize < maxSize);
         this.maxSize = maxSize;
         this.currentSize = currentSize;
     }
@@ -22,35 +23,7 @@ public final class LimitingAccumulator<T, R> implements Accumulator<T, R> {
     }
 
     @Override
-    public Accumulator<T, R> onElement(T element) {
-        if (currentSize < maxSize) {
-            return new LimitingAccumulator<>(original.onElement(element), maxSize, currentSize + 1);
-        }
-
-        return new FullLimitingAccumulator<>(original);
-    }
-
-    @Override
-    public R onFinish() {
-        return original.onFinish();
-    }
-
-    private static final class FullLimitingAccumulator<T, R> implements Accumulator<T, R> {
-
-        private final Accumulator<T, R> original;
-
-        private FullLimitingAccumulator(Accumulator<T, R> original) {
-            this.original = original;
-        }
-
-        @Override
-        public Accumulator<T, R> onElement(T element) {
-            return this;
-        }
-
-        @Override
-        public R onFinish() {
-            return original.onFinish();
-        }
+    Accumulator<T, R> nextAccumulator(Accumulator<T, R> nextOriginalAccumulator, Predicate<T> predicate) {
+        return new LimitingAccumulator<>(nextOriginalAccumulator, maxSize, currentSize + 1);
     }
 }

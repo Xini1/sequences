@@ -123,6 +123,16 @@ final class SingleElementSequencesTest {
 
     @ParameterizedTest
     @MethodSource("sequences")
+    void givenNumber_whenTakeWhile_thenNumberRemained(Sequence<Integer> sequence) {
+        assertThat(
+                sequence.takeWhile(num -> true)
+                        .fold(new ListAccumulator<>())
+        )
+                .containsExactly(1);
+    }
+
+    @ParameterizedTest
+    @MethodSource("sequences")
     void givenNumber_whenMinimum_thenNumberRemained(Sequence<Integer> sequence) {
         assertThat(sequence.minimum(Comparator.naturalOrder())).contains(1);
     }

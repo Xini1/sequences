@@ -29,6 +29,8 @@ public interface Sequence<T> extends Folding<T> {
 
     Sequence<T> skip(long count);
 
+    Sequence<T> takeWhile(Predicate<T> predicate);
+
     void forEach(Consumer<T> consumer);
 
     Optional<T> minimum(Comparator<T> comparator);

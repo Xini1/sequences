@@ -80,6 +80,11 @@ public final class SingleElementSequence<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> takeWhile(Predicate<T> predicate) {
+        return filter(predicate);
+    }
+
+    @Override
     public void forEach(Consumer<T> consumer) {
         consumer.accept(element);
     }

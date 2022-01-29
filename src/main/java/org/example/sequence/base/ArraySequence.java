@@ -68,6 +68,11 @@ public final class ArraySequence<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> takeWhile(Predicate<T> predicate) {
+        return original.takeWhile(predicate);
+    }
+
+    @Override
     public void forEach(Consumer<T> consumer) {
         original.forEach(consumer);
     }
