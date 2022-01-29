@@ -9,6 +9,7 @@ import org.example.accumulator.base.CombiningAccumulator;
 import org.example.accumulator.base.GroupingAccumulator;
 import org.example.accumulator.base.JoiningAccumulator;
 import org.example.accumulator.base.ListAccumulator;
+import org.example.accumulator.base.MapAccumulator;
 import org.example.accumulator.base.PartitioningAccumulator;
 import org.example.accumulator.base.ReducingAccumulator;
 import org.example.accumulator.base.SetAccumulator;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * @author Maxim Tereshchenko
@@ -47,6 +49,14 @@ final class AccumulatorsTest {
                 arguments(
                         new PartitioningAccumulator<String>(str -> Integer.parseInt(str) == 1),
                         Map.of(true, List.of("1", "1"), false, List.of("2"))
+                ),
+                arguments(
+                        new MapAccumulator<String, Integer, String>(
+                                Integer::valueOf,
+                                Function.identity(),
+                                (existing, added) -> existing + added
+                        ),
+                        Map.of(1, "11", 2, "2")
                 )
         );
     }
