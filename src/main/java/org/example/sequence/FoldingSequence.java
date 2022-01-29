@@ -87,7 +87,7 @@ public final class FoldingSequence<T> implements Sequence<T> {
     }
 
     @Override
-    public Optional<T> min(Comparator<T> comparator) {
+    public Optional<T> minimum(Comparator<T> comparator) {
         return folding.fold(new InitialSearchingForMinimumAccumulator<>(comparator));
     }
 

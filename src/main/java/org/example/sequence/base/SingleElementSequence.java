@@ -85,7 +85,7 @@ public final class SingleElementSequence<T> implements Sequence<T> {
     }
 
     @Override
-    public Optional<T> min(Comparator<T> comparator) {
+    public Optional<T> minimum(Comparator<T> comparator) {
         return Optional.of(element);
     }
 

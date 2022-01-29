@@ -73,8 +73,8 @@ public final class ArraySequence<T> implements Sequence<T> {
     }
 
     @Override
-    public Optional<T> min(Comparator<T> comparator) {
-        return original.min(comparator);
+    public Optional<T> minimum(Comparator<T> comparator) {
+        return original.minimum(comparator);
     }
 
     @Override

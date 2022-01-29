@@ -31,7 +31,7 @@ public interface Sequence<T> extends Folding<T> {
 
     void forEach(Consumer<T> consumer);
 
-    Optional<T> min(Comparator<T> comparator);
+    Optional<T> minimum(Comparator<T> comparator);
 
     long count();
 

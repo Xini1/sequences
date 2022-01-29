@@ -20,6 +20,10 @@ public final class OptionalSequence<T> implements Sequence<T> {
                 .orElseGet(EmptySequence::new);
     }
 
+    public OptionalSequence(T nullable) {
+        this(Optional.ofNullable(nullable));
+    }
+
     @Override
     public <R> R fold(Accumulator<T, R> accumulator) {
         return original.fold(accumulator);
@@ -71,8 +75,8 @@ public final class OptionalSequence<T> implements Sequence<T> {
     }
 
     @Override
-    public Optional<T> min(Comparator<T> comparator) {
-        return original.min(comparator);
+    public Optional<T> minimum(Comparator<T> comparator) {
+        return original.minimum(comparator);
     }
 
     @Override

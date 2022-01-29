@@ -19,20 +19,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Maxim Tereshchenko
  */
-class SequencesWithMultipleElementsTest {
+final class SequencesWithMultipleElementsTest {
 
     private static List<Arguments> sequences() {
         return List.of(
                 arguments(new IterableSequence<>(List.of(1, 1, 3, 2, 3, 4))),
                 arguments(new ArraySequence<>(1, 1, 3, 2, 3, 4))
         );
-    }
-
-    @ParameterizedTest
-    @MethodSource("sequences")
-    void givenNumbers_whenFold_thenSameNumbers(Sequence<Integer> sequence) {
-        assertThat(sequence.fold(new ListAccumulator<>()))
-                .containsExactly(1, 1, 3, 2, 3, 4);
     }
 
     @ParameterizedTest
@@ -98,7 +91,7 @@ class SequencesWithMultipleElementsTest {
 
     @ParameterizedTest
     @MethodSource("sequences")
-    void givenNumbers_whenOnEach_thenNumbersAddedToList(Sequence<Integer> sequence) {
+    void givenNumbers_whenForEach_thenNumbersAddedToList(Sequence<Integer> sequence) {
         var list = new ArrayList<Integer>();
 
         sequence.forEach(list::add);
@@ -172,27 +165,26 @@ class SequencesWithMultipleElementsTest {
 
     @ParameterizedTest
     @MethodSource("sequences")
-    void givenNumbers_whenMin_thenMinimumNumberIsFound(Sequence<Integer> sequence) {
-        assertThat(sequence.min(Comparator.naturalOrder()))
-                .contains(1);
+    void givenNumbers_whenMinimum_thenMinimumNumberIsFound(Sequence<Integer> sequence) {
+        assertThat(sequence.minimum(Comparator.naturalOrder())).contains(1);
     }
 
     @ParameterizedTest
     @MethodSource("sequences")
-    void givenFlatMappedNumbers_whenMin_thenMinimumNumberIsFound(Sequence<Integer> sequence) {
+    void givenFlatMappedNumbers_whenMinimum_thenMinimumNumberIsFound(Sequence<Integer> sequence) {
         assertThat(
                 sequence.flatMap(num -> new IterableSequence<>(List.of(-num, num + 1)))
-                        .min(Comparator.naturalOrder())
+                        .minimum(Comparator.naturalOrder())
         )
                 .contains(-4);
     }
 
     @ParameterizedTest
     @MethodSource("sequences")
-    void givenEmptySequence_whenMin_thenEmptyOptionalReturned(Sequence<Integer> sequence) {
+    void givenEmptySequence_whenMinimum_thenEmptyOptionalReturned(Sequence<Integer> sequence) {
         assertThat(
                 sequence.skip(6)
-                        .min(Comparator.naturalOrder())
+                        .minimum(Comparator.naturalOrder())
         )
                 .isEmpty();
     }
