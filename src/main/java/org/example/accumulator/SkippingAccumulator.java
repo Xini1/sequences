@@ -2,17 +2,18 @@ package org.example.accumulator;
 
 import org.example.accumulator.base.Accumulator;
 
+import java.util.function.Predicate;
+
 /**
  * @author Maxim Tereshchenko
  */
-public final class SkippingAccumulator<T, R> implements Accumulator<T, R> {
+public final class SkippingAccumulator<T, R> extends BaseDroppingWhilePredicateSatisfiedAccumulator<T, R> {
 
-    private final Accumulator<T, R> original;
     private final long count;
     private final long skipped;
 
     private SkippingAccumulator(Accumulator<T, R> original, long count, long skipped) {
-        this.original = original;
+        super(original, unused -> skipped < count);
         this.count = count;
         this.skipped = skipped;
     }
@@ -22,16 +23,7 @@ public final class SkippingAccumulator<T, R> implements Accumulator<T, R> {
     }
 
     @Override
-    public Accumulator<T, R> onElement(T element) {
-        if (skipped < count) {
-            return new SkippingAccumulator<>(original, count, skipped + 1);
-        }
-
-        return original.onElement(element);
-    }
-
-    @Override
-    public R onFinish() {
-        return original.onFinish();
+    Accumulator<T, R> nextAccumulatorOnPositivePredicate(Accumulator<T, R> original, Predicate<T> predicate) {
+        return new SkippingAccumulator<>(original, count, skipped + 1);
     }
 }

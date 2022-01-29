@@ -20,7 +20,7 @@ abstract class BaseTakingWhilePredicateSatisfiedAccumulator<T, R> implements Acc
     @Override
     public Accumulator<T, R> onElement(T element) {
         if (predicate.test(element)) {
-            return nextAccumulator(original.onElement(element), predicate);
+            return nextAccumulatorOnPositivePredicate(original.onElement(element), predicate);
         }
 
         return new IgnoringAccumulator<>(original);
@@ -31,7 +31,10 @@ abstract class BaseTakingWhilePredicateSatisfiedAccumulator<T, R> implements Acc
         return original.onFinish();
     }
 
-    abstract Accumulator<T, R> nextAccumulator(Accumulator<T, R> nextOriginalAccumulator, Predicate<T> predicate);
+    abstract Accumulator<T, R> nextAccumulatorOnPositivePredicate(
+            Accumulator<T, R> nextOriginalAccumulator,
+            Predicate<T> predicate
+    );
 
     private static final class IgnoringAccumulator<T, R> implements Accumulator<T, R> {
 

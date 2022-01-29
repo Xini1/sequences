@@ -15,7 +15,10 @@ public final class TakingWhilePredicateSatisfiedAccumulator<T, R>
     }
 
     @Override
-    Accumulator<T, R> nextAccumulator(Accumulator<T, R> nextOriginalAccumulator, Predicate<T> predicate) {
+    Accumulator<T, R> nextAccumulatorOnPositivePredicate(
+            Accumulator<T, R> nextOriginalAccumulator,
+            Predicate<T> predicate
+    ) {
         return new TakingWhilePredicateSatisfiedAccumulator<>(nextOriginalAccumulator, predicate);
     }
 }

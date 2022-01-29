@@ -23,7 +23,10 @@ public final class LimitingAccumulator<T, R> extends BaseTakingWhilePredicateSat
     }
 
     @Override
-    Accumulator<T, R> nextAccumulator(Accumulator<T, R> nextOriginalAccumulator, Predicate<T> predicate) {
+    Accumulator<T, R> nextAccumulatorOnPositivePredicate(
+            Accumulator<T, R> nextOriginalAccumulator,
+            Predicate<T> predicate
+    ) {
         return new LimitingAccumulator<>(nextOriginalAccumulator, maxSize, currentSize + 1);
     }
 }

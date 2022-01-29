@@ -31,6 +31,8 @@ public interface Sequence<T> extends Folding<T> {
 
     Sequence<T> takeWhile(Predicate<T> predicate);
 
+    Sequence<T> dropWhile(Predicate<T> predicate);
+
     void forEach(Consumer<T> consumer);
 
     Optional<T> minimum(Comparator<T> comparator);

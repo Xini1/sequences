@@ -85,6 +85,11 @@ public final class SingleElementSequence<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> dropWhile(Predicate<T> predicate) {
+        return filter(predicate.negate());
+    }
+
+    @Override
     public void forEach(Consumer<T> consumer) {
         consumer.accept(element);
     }

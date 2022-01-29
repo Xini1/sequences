@@ -133,6 +133,16 @@ final class EmptySequencesTest {
 
     @ParameterizedTest
     @MethodSource("sequences")
+    void givenEmptySequence_whenDropWhile_thenNoElements(Sequence<Integer> sequence) {
+        assertThat(
+                sequence.dropWhile(num -> false)
+                        .fold(new ListAccumulator<>())
+        )
+                .isEmpty();
+    }
+
+    @ParameterizedTest
+    @MethodSource("sequences")
     void givenEmptySequence_whenMinimum_thenEmptyOptionalReturned(Sequence<Integer> sequence) {
         assertThat(sequence.minimum(Comparator.naturalOrder())).isEmpty();
     }

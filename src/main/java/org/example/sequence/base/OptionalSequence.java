@@ -75,6 +75,11 @@ public final class OptionalSequence<T> implements Sequence<T> {
     }
 
     @Override
+    public Sequence<T> dropWhile(Predicate<T> predicate) {
+        return original.dropWhile(predicate);
+    }
+
+    @Override
     public void forEach(Consumer<T> consumer) {
         original.forEach(consumer);
     }

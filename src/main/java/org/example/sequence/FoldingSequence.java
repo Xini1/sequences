@@ -9,6 +9,7 @@ import org.example.accumulator.InitialSearchingForMinimumAccumulator;
 import org.example.accumulator.NoneMatchingAccumulator;
 import org.example.accumulator.base.Accumulator;
 import org.example.folding.DistinctFolding;
+import org.example.folding.DroppedWhilePredicateSatisfiedFolding;
 import org.example.folding.FilteredFolding;
 import org.example.folding.FlatMappedFolding;
 import org.example.folding.Folding;
@@ -85,6 +86,11 @@ public final class FoldingSequence<T> implements Sequence<T> {
     @Override
     public Sequence<T> takeWhile(Predicate<T> predicate) {
         return new FoldingSequence<>(new TakenWhilePredicateSatisfiedFolding<>(folding, predicate));
+    }
+
+    @Override
+    public Sequence<T> dropWhile(Predicate<T> predicate) {
+        return new FoldingSequence<>(new DroppedWhilePredicateSatisfiedFolding<>(folding, predicate));
     }
 
     @Override
