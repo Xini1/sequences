@@ -9,6 +9,7 @@ import org.example.accumulator.base.CombiningAccumulator;
 import org.example.accumulator.base.GroupingAccumulator;
 import org.example.accumulator.base.JoiningAccumulator;
 import org.example.accumulator.base.ListAccumulator;
+import org.example.accumulator.base.PartitioningAccumulator;
 import org.example.accumulator.base.ReducingAccumulator;
 import org.example.accumulator.base.SetAccumulator;
 import org.example.sequence.base.ArraySequence;
@@ -42,6 +43,10 @@ final class AccumulatorsTest {
                 arguments(
                         new GroupingAccumulator<String, Integer>(Integer::valueOf),
                         Map.of(1, List.of("1", "1"), 2, List.of("2"))
+                ),
+                arguments(
+                        new PartitioningAccumulator<String>(str -> Integer.parseInt(str) == 1),
+                        Map.of(true, List.of("1", "1"), false, List.of("2"))
                 )
         );
     }
