@@ -7,6 +7,7 @@ import org.example.accumulator.base.Accumulator;
 import org.example.accumulator.base.CollectionAccumulator;
 import org.example.accumulator.base.JoiningAccumulator;
 import org.example.accumulator.base.ListAccumulator;
+import org.example.accumulator.base.ReducingAccumulator;
 import org.example.accumulator.base.SetAccumulator;
 import org.example.sequence.base.ArraySequence;
 import org.example.sequence.base.EmptySequence;
@@ -29,7 +30,8 @@ final class AccumulatorsTest {
                 arguments(new CollectionAccumulator<>(ArrayList::new), List.of("1", "1", "2")),
                 arguments(new ListAccumulator<>(), List.of("1", "1", "2")),
                 arguments(new SetAccumulator<>(), Set.of("1", "2")),
-                arguments(new JoiningAccumulator<>("{", ", ", "}"), "{1, 1, 2}")
+                arguments(new JoiningAccumulator<>("{", ", ", "}"), "{1, 1, 2}"),
+                arguments(new ReducingAccumulator<>("", (identity, element) -> identity + element), "112")
         );
     }
 
