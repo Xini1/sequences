@@ -5,12 +5,14 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import org.example.accumulator.base.Accumulator;
 import org.example.accumulator.base.CollectionAccumulator;
+import org.example.accumulator.base.CombiningAccumulator;
 import org.example.accumulator.base.JoiningAccumulator;
 import org.example.accumulator.base.ListAccumulator;
 import org.example.accumulator.base.ReducingAccumulator;
 import org.example.accumulator.base.SetAccumulator;
 import org.example.sequence.base.ArraySequence;
 import org.example.sequence.base.EmptySequence;
+import org.example.sequence.base.SingleElementSequence;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,6 +20,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -31,7 +34,16 @@ final class AccumulatorsTest {
                 arguments(new ListAccumulator<>(), List.of("1", "1", "2")),
                 arguments(new SetAccumulator<>(), Set.of("1", "2")),
                 arguments(new JoiningAccumulator<>("{", ", ", "}"), "{1, 1, 2}"),
-                arguments(new ReducingAccumulator<>("", (identity, element) -> identity + element), "112")
+                arguments(new JoiningAccumulator<>(", "), "1, 1, 2"),
+                arguments(new ReducingAccumulator<>("", (identity, element) -> identity + element), "112"),
+                arguments(new CombiningAccumulator<String>((first, second) -> first + second), Optional.of("112"))
+        );
+    }
+
+    private static List<Arguments> accumulatorsForEmptySequence() {
+        return List.of(
+                arguments(new JoiningAccumulator<>("empty", "", "", ""), "empty"),
+                arguments(new CombiningAccumulator<String>((first, second) -> first + second), Optional.empty())
         );
     }
 
@@ -45,12 +57,25 @@ final class AccumulatorsTest {
                 .isEqualTo(expected);
     }
 
-    @Test
-    void givenEmptySequence_whenFoldWithJoiningAccumulator_thenValueIfNoElementsReturned() {
+    @ParameterizedTest
+    @MethodSource("accumulatorsForEmptySequence")
+    <T> void givenEmptySequence_whenFold_thenResultAsExpected(
+            Accumulator<String, T> accumulator,
+            T expected
+    ) {
         assertThat(
                 new EmptySequence<String>()
-                        .fold(new JoiningAccumulator<>("empty", "", "", ""))
+                        .fold(accumulator)
         )
-                .isEqualTo("empty");
+                .isEqualTo(expected);
+    }
+
+    @Test
+    void givenSingleElementSequence_whenFoldWithCombiningAccumulator_thenElementReturned() {
+        assertThat(
+                new SingleElementSequence<>(1)
+                        .fold(new CombiningAccumulator<>(Integer::sum))
+        )
+                .contains(1);
     }
 }

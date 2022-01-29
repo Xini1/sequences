@@ -30,6 +30,12 @@ final class SequencesWithMultipleElementsTest {
 
     @ParameterizedTest
     @MethodSource("sequences")
+    void givenNumbers_whenFold_thenSameNumbersInList(Sequence<Integer> sequence) {
+        assertThat(sequence.fold(new ListAccumulator<>())).containsExactly(1, 1, 3, 2, 3, 4);
+    }
+
+    @ParameterizedTest
+    @MethodSource("sequences")
     void givenEvenAndOddNumbers_whenFilter_thenOnlyEvens(Sequence<Integer> sequence) {
         assertThat(
                 sequence.filter(num -> num % 2 == 0)

@@ -20,10 +20,6 @@ public final class OptionalSequence<T> implements Sequence<T> {
                 .orElseGet(EmptySequence::new);
     }
 
-    public OptionalSequence(T nullable) {
-        this(Optional.ofNullable(nullable));
-    }
-
     @Override
     public <R> R fold(Accumulator<T, R> accumulator) {
         return original.fold(accumulator);

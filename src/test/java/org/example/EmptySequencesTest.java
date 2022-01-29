@@ -32,6 +32,12 @@ final class EmptySequencesTest {
 
     @ParameterizedTest
     @MethodSource("sequences")
+    void givenEmptySequence_whenFold_thenEmptyList(Sequence<Integer> sequence) {
+        assertThat(sequence.fold(new ListAccumulator<>())).isEmpty();
+    }
+
+    @ParameterizedTest
+    @MethodSource("sequences")
     void givenEmptySequence_whenFilter_thenNoElements(Sequence<Integer> sequence) {
         assertThat(
                 sequence.filter(num -> true)

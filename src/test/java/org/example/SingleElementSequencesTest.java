@@ -32,6 +32,12 @@ final class SingleElementSequencesTest {
 
     @ParameterizedTest
     @MethodSource("sequences")
+    void givenNumber_whenFold_thenNumberAddedToList(Sequence<Integer> sequence) {
+        assertThat(sequence.fold(new ListAccumulator<>())).containsExactly(1);
+    }
+
+    @ParameterizedTest
+    @MethodSource("sequences")
     void givenNumberMatchingPredicate_whenFilter_thenNumberRemained(Sequence<Integer> sequence) {
         assertThat(
                 sequence.filter(num -> true)
