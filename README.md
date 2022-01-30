@@ -9,6 +9,7 @@ Similarities:
 
 * provides declarative approach to iterate over some values;
 * has almost the same set of operations.
+* lazy in nature.
 
 Differences:
 
