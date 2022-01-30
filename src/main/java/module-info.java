@@ -3,6 +3,6 @@
  */
 module sequences {
 
-    exports org.example.accumulator.base;
-    exports org.example.sequence.base;
+    exports com.github.xini1.accumulator.base;
+    exports com.github.xini1.sequence.base;
 }
