@@ -22,6 +22,11 @@ public final class CollectionAccumulator<T> implements Accumulator<T, Collection
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, Collection<T>> onElement(T element) {
         var copy = copy();
         copy.add(element);

@@ -38,6 +38,11 @@ public final class MapAccumulator<T, K, V> implements Accumulator<T, Map<K, V>> 
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, Map<K, V>> onElement(T element) {
         var copy = new HashMap<>(map);
         copy.merge(keyMapper.apply(element), valueMapper.apply(element), valueMerger);

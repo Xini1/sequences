@@ -20,6 +20,11 @@ public final class SetAccumulator<T> implements Accumulator<T, Set<T>> {
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<T, Set<T>> onElement(T element) {
         return new SetAccumulator<>(original.onElement(element));
     }

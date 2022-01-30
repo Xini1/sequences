@@ -24,6 +24,11 @@ public final class DistinctAccumulator<T, R> implements Accumulator<T, R> {
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<T, R> onElement(T element) {
         if (set.contains(element)) {
             return this;

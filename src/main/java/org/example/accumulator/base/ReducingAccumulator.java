@@ -16,6 +16,11 @@ public final class ReducingAccumulator<T> implements Accumulator<T, T> {
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, T> onElement(T element) {
         return new ReducingAccumulator<>(binaryOperator.apply(identity, element), binaryOperator);
     }

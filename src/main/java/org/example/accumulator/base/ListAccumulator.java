@@ -20,6 +20,11 @@ public final class ListAccumulator<T> implements Accumulator<T, List<T>> {
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<T, List<T>> onElement(T element) {
         return new ListAccumulator<>(original.onElement(element));
     }

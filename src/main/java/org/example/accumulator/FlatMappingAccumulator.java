@@ -15,6 +15,11 @@ public final class FlatMappingAccumulator<T, F extends Folding<T>, R> implements
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<F, R> onElement(F element) {
         return new FlatMappingAccumulator<>(element.fold(new ReturningNestedAccumulatorOnFinish<>(original)));
     }
@@ -30,6 +35,11 @@ public final class FlatMappingAccumulator<T, F extends Folding<T>, R> implements
 
         private ReturningNestedAccumulatorOnFinish(Accumulator<T, R> original) {
             this.original = original;
+        }
+
+        @Override
+        public boolean canAccept() {
+            return original.canAccept();
         }
 
         @Override

@@ -16,6 +16,11 @@ public final class NoneMatchingAccumulator<T> implements Accumulator<T, Boolean>
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, Boolean> onElement(T element) {
         if (predicate.test(element)) {
             return new OneMatchedAccumulator<>();
@@ -30,6 +35,10 @@ public final class NoneMatchingAccumulator<T> implements Accumulator<T, Boolean>
     }
 
     private static final class OneMatchedAccumulator<T> implements Accumulator<T, Boolean> {
+        @Override
+        public boolean canAccept() {
+            return false;
+        }
 
         @Override
         public Accumulator<T, Boolean> onElement(T element) {

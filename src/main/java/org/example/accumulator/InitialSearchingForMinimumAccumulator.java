@@ -17,6 +17,11 @@ public final class InitialSearchingForMinimumAccumulator<T> implements Accumulat
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, Optional<T>> onElement(T element) {
         return new SearchingForMinimumAccumulator<>(comparator, element);
     }
@@ -34,6 +39,11 @@ public final class InitialSearchingForMinimumAccumulator<T> implements Accumulat
         private SearchingForMinimumAccumulator(Comparator<T> comparator, T currentMinimum) {
             this.comparator = comparator;
             this.currentMinimum = currentMinimum;
+        }
+
+        @Override
+        public boolean canAccept() {
+            return true;
         }
 
         @Override

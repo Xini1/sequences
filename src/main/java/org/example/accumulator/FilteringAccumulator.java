@@ -18,6 +18,11 @@ public final class FilteringAccumulator<T, R> implements Accumulator<T, R> {
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<T, R> onElement(T element) {
         if (!predicate.test(element)) {
             return this;

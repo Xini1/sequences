@@ -18,6 +18,11 @@ abstract class BaseDroppingWhilePredicateSatisfiedAccumulator<T, R> implements A
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<T, R> onElement(T element) {
         if (predicate.test(element)) {
             return nextAccumulatorOnPositivePredicate(original, predicate);

@@ -31,6 +31,11 @@ public final class JoiningAccumulator<T extends CharSequence> implements Accumul
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, String> onElement(T element) {
         return new NotEmptyJoiningAccumulator<>(element.toString(), prefix, delimiter, suffix);
     }
@@ -57,6 +62,11 @@ public final class JoiningAccumulator<T extends CharSequence> implements Accumul
             this.prefix = prefix;
             this.delimiter = delimiter;
             this.suffix = suffix;
+        }
+
+        @Override
+        public boolean canAccept() {
+            return true;
         }
 
         @Override

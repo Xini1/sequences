@@ -16,6 +16,11 @@ public final class ConsumerAccumulator<T> implements Accumulator<T, Void> {
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, Void> onElement(T element) {
         consumer.accept(element);
 

@@ -5,6 +5,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import org.example.accumulator.base.ListAccumulator;
 import org.example.sequence.base.ArraySequence;
+import org.example.sequence.base.GeneratedSequence;
 import org.example.sequence.base.IterableSequence;
 import org.example.sequence.base.Sequence;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,9 +23,26 @@ import java.util.concurrent.atomic.AtomicInteger;
 final class SequencesWithMultipleElementsTest {
 
     private static List<Arguments> sequences() {
+        var numbers = List.of(1, 1, 3, 2, 3, 4);
+        var counter = new AtomicInteger(0);
+
         return List.of(
-                arguments(new IterableSequence<>(List.of(1, 1, 3, 2, 3, 4))),
-                arguments(new ArraySequence<>(1, 1, 3, 2, 3, 4))
+                arguments(new IterableSequence<>(numbers)),
+                arguments(new ArraySequence<>(numbers.toArray(Integer[]::new))),
+                arguments(
+                        new GeneratedSequence<>(0, index -> index < numbers.size(), index -> index + 1)
+                                .map(numbers::get)
+                ),
+                arguments(
+                        new GeneratedSequence<>(0, index -> index + 1)
+                                .limit(6)
+                                .map(numbers::get)
+                ),
+                arguments(
+                        new GeneratedSequence<>(counter::getAndIncrement)
+                                .limit(6)
+                                .map(numbers::get)
+                )
         );
     }
 

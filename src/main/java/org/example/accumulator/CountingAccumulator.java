@@ -18,6 +18,11 @@ public final class CountingAccumulator<T> implements Accumulator<T, Long> {
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, Long> onElement(T element) {
         return new CountingAccumulator<>(runningTotal + 1);
     }

@@ -17,6 +17,11 @@ public final class GroupingAccumulator<T, K> implements Accumulator<T, Map<K, Li
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<T, Map<K, List<T>>> onElement(T element) {
         return original.onElement(element);
     }

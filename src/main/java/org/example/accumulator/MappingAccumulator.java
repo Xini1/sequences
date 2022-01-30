@@ -18,6 +18,11 @@ public final class MappingAccumulator<T, S, R> implements Accumulator<T, R> {
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<T, R> onElement(T element) {
         return new MappingAccumulator<>(original.onElement(mapper.apply(element)), mapper);
     }

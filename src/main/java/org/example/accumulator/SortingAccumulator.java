@@ -27,6 +27,11 @@ public final class SortingAccumulator<T, R> implements Accumulator<T, R> {
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<T, R> onElement(T element) {
         var copy = new ArrayList<>(buffer);
         copy.add(element);

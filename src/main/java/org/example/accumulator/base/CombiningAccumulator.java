@@ -15,6 +15,11 @@ public final class CombiningAccumulator<T> implements Accumulator<T, Optional<T>
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, Optional<T>> onElement(T element) {
         return new SingleElementCombiningAccumulator<>(element, binaryOperator);
     }
@@ -32,6 +37,11 @@ public final class CombiningAccumulator<T> implements Accumulator<T, Optional<T>
         private SingleElementCombiningAccumulator(T element, BinaryOperator<T> binaryOperator) {
             this.element = element;
             this.binaryOperator = binaryOperator;
+        }
+
+        @Override
+        public boolean canAccept() {
+            return true;
         }
 
         @Override
@@ -56,6 +66,11 @@ public final class CombiningAccumulator<T> implements Accumulator<T, Optional<T>
         private MultipleElementsCombiningAccumulator(T combined, BinaryOperator<T> binaryOperator) {
             this.combined = combined;
             this.binaryOperator = binaryOperator;
+        }
+
+        @Override
+        public boolean canAccept() {
+            return true;
         }
 
         @Override

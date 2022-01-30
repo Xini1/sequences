@@ -16,6 +16,11 @@ public final class PartitioningAccumulator<T> implements Accumulator<T, Map<Bool
     }
 
     @Override
+    public boolean canAccept() {
+        return original.canAccept();
+    }
+
+    @Override
     public Accumulator<T, Map<Boolean, List<T>>> onElement(T element) {
         return original.onElement(element);
     }

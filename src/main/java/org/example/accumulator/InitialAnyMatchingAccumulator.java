@@ -16,6 +16,11 @@ public final class InitialAnyMatchingAccumulator<T> implements Accumulator<T, Bo
     }
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, Boolean> onElement(T element) {
         if (predicate.test(element)) {
             return new AnyMatchedAccumulator<>();
@@ -30,6 +35,11 @@ public final class InitialAnyMatchingAccumulator<T> implements Accumulator<T, Bo
     }
 
     private static final class AnyMatchedAccumulator<T> implements Accumulator<T, Boolean> {
+
+        @Override
+        public boolean canAccept() {
+            return false;
+        }
 
         @Override
         public Accumulator<T, Boolean> onElement(T element) {

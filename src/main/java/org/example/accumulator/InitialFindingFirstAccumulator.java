@@ -10,6 +10,11 @@ import java.util.Optional;
 public final class InitialFindingFirstAccumulator<T> implements Accumulator<T, Optional<T>> {
 
     @Override
+    public boolean canAccept() {
+        return true;
+    }
+
+    @Override
     public Accumulator<T, Optional<T>> onElement(T element) {
         return new FoundFirstAccumulator<>(element);
     }
@@ -25,6 +30,11 @@ public final class InitialFindingFirstAccumulator<T> implements Accumulator<T, O
 
         private FoundFirstAccumulator(T first) {
             this.first = first;
+        }
+
+        @Override
+        public boolean canAccept() {
+            return false;
         }
 
         @Override
