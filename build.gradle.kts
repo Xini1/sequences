@@ -2,7 +2,7 @@ plugins {
     java
 }
 
-group = "com.github.Xini1"
+group = "com.github.xini1"
 version = "1.0-SNAPSHOT"
 
 repositories {
