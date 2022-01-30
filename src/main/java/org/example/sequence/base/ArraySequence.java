@@ -1,9 +1,8 @@
 package org.example.sequence.base;
 
 import org.example.accumulator.base.Accumulator;
-import org.example.folding.ArrayFolding;
-import org.example.sequence.FoldingSequence;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -19,7 +18,7 @@ public final class ArraySequence<T> implements Sequence<T> {
 
     @SafeVarargs
     public ArraySequence(T... elements) {
-        original = new FoldingSequence<>(new ArrayFolding<>(elements));
+        original = new IterableSequence<>(Arrays.asList(elements));
     }
 
     @Override
